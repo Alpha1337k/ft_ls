@@ -38,15 +38,9 @@ int main(int argc, char **argv)
 		entries = malloc(sizeof(t_direntry));
 		entries->path = ".";
 	}
-	//printf("data: [%s] %d %d %d %d\n",data.dir->path, data.islist, data.isrecusive, data.listall, data.sorttype);
 	while (entries)
 	{
 		recurse_traverse(data, entries->path);
 		entries = entries->next;
 	}
-	
-	//t_filentry *files = getfiles(&data);
-
-	//printer(data, files);
-	//freelist(files);
 }

@@ -57,7 +57,6 @@ void		get_stats(t_data *data, t_filentry *n, char *path)
 	n->links	= s.st_nlink;
 
 	data->blocksize += s.st_blocks / 2;
-	//printf("permissions: %s %d %ld %ld\n", n->name, s.st_mode, s.st_blocks, s.st_blksize);
 }
 
 static const void *sorttypes[] = {alphabetical_compare, reverse_compare, time_compare};
@@ -83,11 +82,8 @@ t_filentry	*getfiles(t_data *data, char *path)
 			n->prev = 0;
 			n->name = strdup(drnt->d_name);
 			n->searchname = strdup(drnt->d_name);
-
 			ft_tolowercase(n->searchname);
 			get_stats(data, n, path);
-			//printf("adding %s\n", n->name);
-
 			list_add_back(&rval, n);
 		}
 	} while (drnt);

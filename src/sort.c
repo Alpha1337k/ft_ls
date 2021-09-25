@@ -53,13 +53,9 @@ t_filentry	*sort_list(t_filentry *files, int (f(t_filentry , t_filentry)))
 		changes = 0;
 		while (tmp && tmp->next)
 		{
-			//printf("checking %s\n", tmp->name);
 			if (f(*tmp, *(t_filentry *)(tmp->next)) > 0)
 			{
 				swap(tmp, (t_filentry *)(tmp->next), &base);
-				//t_filentry *tmp2 = (t_filentry *)(tmp->next);
-				//if (tmp2)
-				//	printf("!! swapping %s and %s\n", tmp->name, tmp2->name);
 				changes++;
 			}
 			tmp = tmp->next;

@@ -29,6 +29,7 @@ void	cleanup_file(t_filentry *ent)
 void	recurse_traverse(t_data data, char *path)
 {
 	t_filentry *files = getfiles(&data, path);
+	t_filentry *base = files;
 	printer(data, files, path);
 
 	while (data.isrecusive && files)
@@ -38,11 +39,12 @@ void	recurse_traverse(t_data data, char *path)
 			printf("\n");
 			char *p = ft_strjoinmid(path, files->name, '/');
 			recurse_traverse(data, p);
+			free(p);
 			data.blocksize = 0;
 		}
 		files = files->next;
 	}
-	cleanup_file(files);
+	cleanup_file(base);
 }
 
 int main(int argc, char **argv)

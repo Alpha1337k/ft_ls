@@ -1,7 +1,7 @@
 NAME=ft_ls
 
 CC=gcc
-FLAGS=-Wall -Werror -Wextra
+FLAGS=-Wall -Werror -Wextra -g
 DEBUG_FLAGS=-g -fsanitize=address
 SRC=src/*.c libft/*.c
 LIBS=-I .

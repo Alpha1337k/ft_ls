@@ -40,6 +40,7 @@ def run_compare(path, commands):
 
 def run_tests(path):
 	global paramsCombos, total, false
+	print(paramsCombos)
 	for i in paramsCombos:
 		res = run_compare(path, i);
 		print('{:<40s}'.format(path + " " + " ".join(i)), flush=True, end='');
@@ -58,3 +59,6 @@ def test():
 
 test()
 f.close();
+print ('{:d} tests run {:d} errors'.format(total, false));
+if (false != 0):
+	exit(1)

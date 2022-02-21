@@ -43,6 +43,7 @@ typedef struct	s_filentry
 	char	*group;
 	long	size;
 	long	links;
+	long	realtime;
 
 	void	*next;
 	void	*prev;

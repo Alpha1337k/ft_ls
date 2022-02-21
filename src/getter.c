@@ -50,7 +50,6 @@ void		get_stats(t_data *data, t_filentry *n, char *path)
 	n->size = s.st_size;
 	n->filetype = get_filetype(s.st_mode);
 	n->modtime = ft_substr(ctime(&s.st_mtime), 4, 12);
-	n->modtime[0] = n->modtime[0] + 32;
 	n->owner	= pw->pw_name;
 	n->group	= gr->gr_name;
 	n->perms = get_permissions(s.st_mode);
@@ -59,7 +58,7 @@ void		get_stats(t_data *data, t_filentry *n, char *path)
 	data->blocksize += s.st_blocks / 2;
 }
 
-static const void *sorttypes[] = {alphabetical_compare, reverse_compare, time_compare};
+static const void *sorttypes[] = {alphabetical_compare, reverse_compare, time_compare, reverse_time_compare};
 
 t_filentry	*getfiles(t_data *data, char *path)
 {

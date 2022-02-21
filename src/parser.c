@@ -11,9 +11,9 @@ int handle_arg(t_data *data, char *str)
 		else if (str[x] == 'l')
 			data->islist = 1;
 		else if (str[x] == 'r')
-			data->sorttype = REVERSED;
+			data->sorttype |= REVERSED;
 		else if (str[x] == 't')
-			data->sorttype = TIME;
+			data->sorttype |= TIME;
 		else if (str[x] == 'R')
 			data->isrecusive = 1;
 		x++;

@@ -18,9 +18,11 @@
 
 typedef enum e_sort
 {
+	UNKNOWN = -1,
 	ALPHANUM,
 	REVERSED,
 	TIME,
+	REVERSED_TIME,
 	LENGTH
 }			e_sort;
 
@@ -65,6 +67,8 @@ t_filentry	*getfiles(t_data *data, char *path);
 int	alphabetical_compare(t_filentry f1, t_filentry f2);
 int	reverse_compare(t_filentry f1, t_filentry f2);
 int	time_compare(t_filentry f1, t_filentry f2);
+int	reverse_time_compare(t_filentry f1, t_filentry f2);
+
 
 t_filentry	*sort_list(t_filentry *files, int (f(t_filentry , t_filentry)));
 

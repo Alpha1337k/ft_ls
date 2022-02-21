@@ -33,7 +33,7 @@ void	recurse_traverse(t_data data, char *path)
 
 	while (data.isrecusive && files)
 	{
-		if (files->filetype == 'd')
+		if (files->filetype == 'd' && files->name[0] != '.')
 		{
 			printf("\n");
 			char *p = ft_strjoinmid(path, files->name, '/');

@@ -25,7 +25,6 @@ void	set_wideboys(int *wb, t_filentry *f)
 			wb[3] = longlen(f->links);
 		f = f->next;
 	}
-	
 }
 
 void	printer(t_data data, t_filentry *f, char *path)
@@ -42,9 +41,9 @@ void	printer(t_data data, t_filentry *f, char *path)
 		if (data.islist)
 			print_row(f, widest);
 		else
-			printf("%s ", f->name);
+			printf("%s\n", f->name);
 		f = f->next;
 	}
-	if (data.islist == 0)
-		printf("\n");	
+	// if (data.islist == 0)
+	// 	printf("\n");	
 }

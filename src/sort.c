@@ -16,6 +16,14 @@ int	time_compare(t_filentry f1, t_filentry f2)
 	return strcmp(f2.modtime, f1.modtime);
 }
 
+int	reverse_time_compare(t_filentry f1, t_filentry f2)
+{
+	int res = strcmp(f1.modtime, f2.modtime);
+	if (res == 0)
+		return strcmp(f2.searchname, f1.searchname);
+	return res;
+}
+
 void	swap(t_filentry *f1, t_filentry *f2, t_filentry **base)
 {
 	t_filentry *tmp;

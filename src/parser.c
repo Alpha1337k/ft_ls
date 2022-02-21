@@ -26,6 +26,7 @@ int	handle_dir(t_direntry **e, char *str)
 	t_direntry *en = malloc(sizeof(t_direntry));
 
 	en->path = str;
+	en->next = 0;
 
 	if (*e == 0)
 		*e = en;

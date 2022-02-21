@@ -1,5 +1,31 @@
 #include <ft_ls.h>
 
+void	cleanup_dir(t_direntry *ent)
+{
+	t_direntry *tmp;
+	while (ent)
+	{
+		tmp = ent;
+		ent = ent->next;
+		free(tmp);
+	}	
+}
+
+void	cleanup_file(t_filentry *ent)
+{
+	t_filentry *tmp;
+	while (ent)
+	{
+		tmp = ent;
+		ent = ent->next;
+		free(tmp->modtime);
+		free(tmp->perms);
+		free(tmp->searchname);
+		free(tmp->name);
+		free(tmp);
+	}	
+}
+
 void	recurse_traverse(t_data data, char *path)
 {
 	t_filentry *files = getfiles(&data, path);
@@ -16,14 +42,14 @@ void	recurse_traverse(t_data data, char *path)
 		}
 		files = files->next;
 	}
-	free(files);
-	
+	cleanup_file(files);
 }
 
 int main(int argc, char **argv)
 {
 	t_data data;
 	t_direntry *entries = 0;
+	t_direntry *baseptr;
 
 	(void)argc;
 
@@ -37,10 +63,13 @@ int main(int argc, char **argv)
 	{
 		entries = malloc(sizeof(t_direntry));
 		entries->path = ".";
+		entries->next = 0;
 	}
+	baseptr = entries;
 	while (entries)
 	{
 		recurse_traverse(data, entries->path);
 		entries = entries->next;
 	}
+	cleanup_dir(baseptr);
 }

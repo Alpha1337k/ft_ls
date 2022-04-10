@@ -1,7 +1,10 @@
+#! /usr/local/bin/python3
+
 import subprocess
 import os
 import difflib
 from itertools import combinations
+import re
 
 total = 0
 false = 0
@@ -22,15 +25,23 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+def prefilter(line):
+    return re.sub("\s+"," ",line.strip())
+
 def get_diff(name, s1, s2):
 	global f
+
 	f.write("-------------------- ["+ name +"] --------------------");
-	for line in difflib.unified_diff(s1, s2, fromfile='mine', tofile='real', lineterm=''):
+	for line in difflib.unified_diff([prefilter(x) for x in s1], [prefilter(x) for x in s2], fromfile='mine', tofile='real', lineterm=''):
 		f.write(line + "\n");
 	f.write("\n");
 
 def run_compare(path, commands):
-	real = subprocess.run(["ls", "--color=never"] + commands + [path], stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+	real = subprocess.run(["/bin/ls"] + commands + [path], stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+
+	if (real.returncode != 0):
+		print("ERROR: REAL FAIL ", real.returncode ,["/bin/ls", "--color=never"] + commands + [path], real.stderr.decode("utf-8"));
+
 	mine = subprocess.run(["./ft_ls"] + commands + [path], stdout=subprocess.PIPE, stderr=subprocess.PIPE);
 
 	if (real.stdout.decode("utf-8") == mine.stdout.decode("utf-8")):

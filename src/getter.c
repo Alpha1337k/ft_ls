@@ -7,7 +7,7 @@ char		get_filetype(mode_t s)
 	if (S_ISDIR(s))
 		return 'd';
 	if (S_ISFIFO(s))
-		return 'f';
+		return 'p';
 	if (S_ISBLK(s))
 		return 'b';
 	if (S_ISCHR(s))
@@ -42,7 +42,7 @@ void		get_stats(t_data *data, t_filentry *n, char *path)
 
 	char *tofind = ft_strjoinmid(path, n->name, '/');
 
-	stat(tofind, &s);
+	lstat(tofind, &s);
 
 	free(tofind);
 	struct passwd *pw = getpwuid(s.st_uid);

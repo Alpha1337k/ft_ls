@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 
 	(void)argc;
 
-	bzero(&data, sizeof(t_data));
+	memset(&data, 0, sizeof(t_data));
 	if (parse(&data, &argv[1], &entries))
 	{
 		printf("exit: parse error");

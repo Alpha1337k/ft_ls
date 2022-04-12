@@ -2,13 +2,16 @@
 
 void	print_row(t_filentry *f, int *w)
 {
-	printf("%c%s %*ld %*s %*s %*ld %s %s\n",	\
+	printf("%c%s %*ld %*s %*s %*ld %s %s",	\
 	f->filetype, f->perms,
 	w[3], f->links,							\
 	w[0], f->owner,							\
 	w[1], f->group,							\
 	w[2], f->size,							\
 	f->modtime, f->name);
+	if (f->filetype == 'l')
+		printf(" -> %s", f->linkname);
+	printf("\n");
 }
 
 void	set_wideboys(int *wb, t_filentry *f)

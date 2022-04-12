@@ -1,5 +1,6 @@
 #ifndef FT_LS
 #define  FT_LS
+#define _POSIX_C_SOURCE 200809
 
 #include <stdio.h>
 #include <unistd.h>
@@ -10,6 +11,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <errno.h>
 #include <pwd.h>
 #include <grp.h>
 
@@ -37,13 +39,14 @@ typedef struct	s_filentry
 	char	filetype;
 	char	*perms;
 	char	*name;
+	char	linkname[256];
 	char	*searchname;
 	char	*modtime;
 	char	*owner;
 	char	*group;
 	long	size;
 	long	links;
-	long	realtime;
+	struct timespec	realtime;
 
 	void	*next;
 	void	*prev;

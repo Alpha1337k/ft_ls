@@ -44,19 +44,21 @@ void		get_stats(t_data *data, t_filentry *n, char *path)
 
 	lstat(tofind, &s);
 
-	free(tofind);
 	struct passwd *pw = getpwuid(s.st_uid);
 	struct group  *gr = getgrgid(s.st_gid);
 	n->size = s.st_size;
 	n->filetype = get_filetype(s.st_mode);
 	n->modtime = ft_substr(ctime(&s.st_mtime), 4, 12);
-	n->realtime = s.st_mtime;
+	n->realtime = s.st_mtim;
 	n->owner	= pw->pw_name;
 	n->group	= gr->gr_name;
 	n->perms = get_permissions(s.st_mode);
 	n->links	= s.st_nlink;
 
+	readlink(tofind, n->linkname, 256);
+
 	data->blocksize += s.st_blocks / 2;
+	free(tofind);
 }
 
 static const void *sorttypes[] = {alphabetical_compare, reverse_compare, time_compare, reverse_time_compare};
@@ -77,7 +79,7 @@ t_filentry	*getfiles(t_data *data, char *path)
 		{
 			t_filentry *n = malloc(sizeof(t_filentry));
 
-			bzero(n, sizeof(t_filentry));
+			memset(n, 0, sizeof(t_filentry));
 			n->next = 0;
 			n->prev = 0;
 			n->name = strdup(drnt->d_name);

@@ -13,26 +13,26 @@ int	reverse_compare(t_filentry f1, t_filentry f2)
 
 int	time_compare(t_filentry f1, t_filentry f2)
 {
-	if (f1.realtime == f2.realtime)
+	if (f1.realtime.tv_sec == f2.realtime.tv_sec)
 	{
-		if (f1.searchname[0] == f2.searchname[0])
-			return strlen(f2.searchname) > strlen(f1.searchname);
-		// printf("TIME %s %s\n", f1.searchname, f2.searchname);
-		return strcmp(f1.searchname, f2.searchname);
+		if (f1.realtime.tv_nsec == f2.realtime.tv_nsec)
+			return strcmp(f1.searchname, f2.searchname);
+		else
+			return f1.realtime.tv_nsec < f2.realtime.tv_nsec; 
 	}
-	return f1.realtime < f2.realtime;
+	return f1.realtime.tv_sec < f2.realtime.tv_sec;
 }
 
 int	reverse_time_compare(t_filentry f1, t_filentry f2)
 {
-	if (f1.realtime == f2.realtime)
+	if (f1.realtime.tv_sec == f2.realtime.tv_sec)
 	{
-		// printf("TIME %s %s\n", f1.searchname, f2.searchname);
-		if (f1.searchname[0] == f2.searchname[0])
-			return strlen(f1.searchname) > strlen(f2.searchname);
-		return strcmp(f2.searchname, f1.searchname); 
+		if (f1.realtime.tv_nsec == f2.realtime.tv_nsec)
+			return strcmp(f2.searchname, f1.searchname);
+		else
+			return f1.realtime.tv_nsec > f2.realtime.tv_nsec; 
 	}
-	return f1.realtime > f2.realtime;
+	return f1.realtime.tv_sec > f2.realtime.tv_sec;
 }
 
 void	swap(t_filentry *f1, t_filentry *f2, t_filentry **base)
@@ -77,7 +77,8 @@ t_filentry	*sort_list(t_filentry *files, int (f(t_filentry , t_filentry)))
 				swap(tmp, (t_filentry *)(tmp->next), &base);
 				changes++;
 			}
-			tmp = tmp->next;
+			else
+				tmp = tmp->next;
 		}
 	}
 	return base;

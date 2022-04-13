@@ -8,6 +8,7 @@ import re
 
 total = 0
 false = 0
+padding = 0
 
 f = open("trace.txt", "w");
 
@@ -30,6 +31,7 @@ def prefilter(line):
 
 def get_diff(name, s1, s2):
 	global f
+	global padding
 	padding_fault_guard = 0;
 
 	f.write("-------------------- ["+ name +"] --------------------\n");
@@ -37,6 +39,7 @@ def get_diff(name, s1, s2):
 		f.write(line + "\n");
 		padding_fault_guard = 1;
 	if padding_fault_guard == 0:
+		padding += 1
 		return 0;
 	f.write("\n");
 	return 1;
@@ -76,6 +79,6 @@ def test():
 
 test()
 f.close();
-print ('{:d} tests run {:d} errors'.format(total, false));
+print ('{:d} tests run: {:d} errors, {:d} padding fails'.format(total, false, padding));
 if (false != 0):
 	exit(1)

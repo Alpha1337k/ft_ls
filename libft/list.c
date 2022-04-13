@@ -28,7 +28,6 @@ void	freelist(t_filentry *lst)
 		lst = lst->next;
 		free(tmp->name);
 		free(tmp->perms);
-		free(tmp->searchname);
 		free(tmp->modtime);
 		free(tmp);
 	}

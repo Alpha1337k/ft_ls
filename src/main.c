@@ -20,7 +20,6 @@ void	cleanup_file(t_filentry *ent)
 		ent = ent->next;
 		free(tmp->modtime);
 		free(tmp->perms);
-		free(tmp->searchname);
 		free(tmp->name);
 		free(tmp->owner);
 		free(tmp->group);
@@ -39,9 +38,9 @@ void	recurse_traverse(t_data data, char *path)
 		if (files->filetype == 'd' && !((files->name[0] == '.' && data.listall == 0) || strcmp("..", files->name) == 0 || strcmp(".", files->name) == 0))
 		{
 			data.blocksize = 0;
-			printf("\n");
+			write(1, "\n", 1);
 			char *p;
-			if (path[strlen(path) - 1] != '/')
+			if (path[ft_strlen(path) - 1] != '/')
 				p = ft_strjoinmid(path, files->name, '/');
 			else
 				p = ft_strjoin(path, files->name);
@@ -61,10 +60,10 @@ int main(int argc, char **argv)
 
 	(void)argc;
 
-	memset(&data, 0, sizeof(t_data));
+	ft_memset(&data, 0, sizeof(t_data));
 	if (parse(&data, &argv[1], &entries))
 	{
-		printf("exit: parse error");
+		write(2, "Error: parse fail\n", 19);
 		return (-1);
 	}
 	if (entries == 0)

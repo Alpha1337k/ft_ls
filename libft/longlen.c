@@ -4,7 +4,7 @@ int	longlen(long l)
 {
 	int len = 0;
 	if (l == 0)
-		return 0;
+		return 1;
 	if (l < 0)
 		len = 1;
 	while (l != 0)

@@ -3,12 +3,12 @@
 
 int	alphabetical_compare(t_filentry f1, t_filentry f2)
 {
-	return strcmp(f1.searchname, f2.searchname);
+	return ft_strcmp(f1.name, f2.name);
 }
 
 int	reverse_compare(t_filentry f1, t_filentry f2)
 {
-	return strcmp(f2.searchname, f1.searchname);
+	return ft_strcmp(f2.name, f1.name);
 }
 
 int	time_compare(t_filentry f1, t_filentry f2)
@@ -16,7 +16,7 @@ int	time_compare(t_filentry f1, t_filentry f2)
 	if (f1.realtime.tv_sec == f2.realtime.tv_sec)
 	{
 		if (f1.realtime.tv_nsec == f2.realtime.tv_nsec)
-			return strcmp(f1.searchname, f2.searchname);
+			return ft_strcmp(f1.name, f2.name);
 		else
 			return f1.realtime.tv_nsec < f2.realtime.tv_nsec; 
 	}
@@ -28,7 +28,7 @@ int	reverse_time_compare(t_filentry f1, t_filentry f2)
 	if (f1.realtime.tv_sec == f2.realtime.tv_sec)
 	{
 		if (f1.realtime.tv_nsec == f2.realtime.tv_nsec)
-			return strcmp(f2.searchname, f1.searchname);
+			return ft_strcmp(f2.name, f1.name);
 		else
 			return f1.realtime.tv_nsec > f2.realtime.tv_nsec; 
 	}

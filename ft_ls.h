@@ -40,7 +40,6 @@ typedef struct	s_filentry
 	char	*perms;
 	char	*name;
 	char	linkname[256];
-	char	*searchname;
 	char	*modtime;
 	char	*owner;
 	char	*group;
@@ -91,7 +90,12 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strjoinmid(char const *s1, char const *s2, char const mid);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
-void	ft_tolowercase(char *s);
 int		longlen(long l);
+int 	ft_strcmp(char *s1, char *s2);
+void	*ft_memcpy(char *dest, char *src, int n);
+int		ft_strlen(char *s);
+void	*ft_memset(void *d, char c, int n);
+void	ft_puts(char *s);
+void	ft_putnbr(long n);
 
 #endif

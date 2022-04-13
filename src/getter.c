@@ -21,7 +21,7 @@ char		get_filetype(mode_t s)
 
 char		*get_permissions(struct stat *s)
 {
-	char	*rval = strdup("---------");
+	char	*rval = ft_strdup("---------");
 	char	*types = "xwr";
 	int x = 0;
 
@@ -45,16 +45,17 @@ char		*get_permissions(struct stat *s)
 char		*get_mdate(struct stat *s)
 {
 	time_t cur_time = time(0);
-	char *rv = calloc(sizeof(char), 13);
+	char *rv = malloc(sizeof(char) * 13);
 
 	char *toedit = ctime(&s->st_mtime);
 
-	memcpy(rv, &toedit[4], 7);
+	ft_memcpy(rv, &toedit[4], 7);
 	if (s->st_mtim.tv_sec <= (cur_time - 15778476))
-		memcpy(&rv[7], &toedit[19], 5);
+		ft_memcpy(&rv[7], &toedit[19], 5);
 	else
-		memcpy(&rv[7], &toedit[11], 5);
+		ft_memcpy(&rv[7], &toedit[11], 5);
 
+	rv[12] = 0;
 	return rv;
 }
 
@@ -104,9 +105,7 @@ t_filentry	*getfiles(t_data *data, char *path)
 			memset(n, 0, sizeof(t_filentry));
 			n->next = 0;
 			n->prev = 0;
-			n->name = strdup(drnt->d_name);
-			n->searchname = strdup(drnt->d_name);
-			// ft_tolowercase(n->searchname);
+			n->name = ft_strdup(drnt->d_name);
 			get_stats(data, n, path);
 			list_add_back(&rval, n);
 		}

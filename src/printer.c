@@ -1,27 +1,55 @@
 #include <ft_ls.h>
 
+void	print_padding(int n)
+{
+	int x = 0;
+	while (x < n)
+	{
+		write(1, " ", 1);
+		x++;
+	}
+}
+
 void	print_row(t_filentry *f, int *w)
 {
-	printf("%c%s %*ld %*s %*s %*ld %s %s",	\
-	f->filetype, f->perms,
-	w[3], f->links,							\
-	w[0], f->owner,							\
-	w[1], f->group,							\
-	w[2], f->size,							\
-	f->modtime, f->name);
+	write(1, &f->filetype, 1);
+	write(1, f->perms, ft_strlen(f->perms));
+
+
+	print_padding(w[3] + 1 - longlen(f->links));
+	ft_putnbr(f->links);
+	print_padding(1);
+
+	write(1, f->owner, ft_strlen(f->owner));
+	print_padding(w[0] + 1 - ft_strlen(f->owner));
+
+	write(1, f->group, ft_strlen(f->group));
+
+	print_padding(w[2] + 1 - longlen(f->size));
+	ft_putnbr(f->size);
+	print_padding(1);
+
+	write(1, f->modtime, ft_strlen(f->modtime));
+	print_padding(1);
+
 	if (f->filetype == 'l')
-		printf(" -> %s", f->linkname);
-	printf("\n");
+	{
+		write(1, f->name, ft_strlen(f->name));
+		write(1, " -> ", 4);
+		ft_puts(f->linkname);
+	}
+	else
+		ft_puts(f->name);
 }
 
 void	set_wideboys(int *wb, t_filentry *f)
 {
 	while (f)
 	{
-		if ((int)strlen(f->owner) > wb[0])
-			wb[0] = strlen(f->owner);
-		if ((int)strlen(f->group) > wb[1])
-			wb[1] = strlen(f->group);
+		if ((int)ft_strlen(f->owner) > wb[0])
+			wb[0] = ft_strlen(f->owner);
+		if ((int)ft_strlen(f->group) > wb[1])
+			wb[1] = ft_strlen(f->group);
 		if (longlen(f->size) > wb[2])
 			wb[2] = longlen(f->size);
 		if (longlen(f->links) > wb[3])
@@ -36,17 +64,22 @@ void	printer(t_data data, t_filentry *f, char *path)
 
 	set_wideboys(widest, f);
 	if (data.isrecusive)
-		printf("%s:\n", path);
+	{
+		write(1, path, ft_strlen(path));
+		ft_puts(":");
+	}
 	if (data.islist)
-		printf("total %ld\n", data.blocksize / 2);
+	{
+		write(1, "total ", 6);
+		ft_putnbr(data.blocksize / 2);
+		ft_puts("");
+	}
 	while (f)
 	{
 		if (data.islist)
 			print_row(f, widest);
-		else
-			printf("%s\n", f->name);
+		else 
+			ft_puts(f->name);
 		f = f->next;
 	}
-	// if (data.islist == 0)
-	// 	printf("\n");	
 }

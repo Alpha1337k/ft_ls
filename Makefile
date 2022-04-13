@@ -1,9 +1,24 @@
 NAME=ft_ls
 
 CC=gcc
-FLAGS=-Wall -Werror -Wextra -g
+FLAGS=-Wall -Werror -Wextra -O3 -Wno-unused-result
 DEBUG_FLAGS=-g -fsanitize=address
-SRC=src/*.c libft/*.c
+SRC=	libft/list.c		\
+		libft/longlen.c		\
+		libft/memcpy.c		\
+		libft/memset.c		\
+		libft/putnumbr.c	\
+		libft/puts.c		\
+		libft/strcmp.c		\
+		libft/strdup.c		\
+		libft/strjoin.c		\
+		libft/strlen.c		\
+		libft/substr.c		\
+		src/getter.c		\
+		src/main.c			\
+		src/parser.c		\
+		src/printer.c		\
+		src/sort.c			
 LIBS=-I .
 OBJ=
 RM =rm -rf

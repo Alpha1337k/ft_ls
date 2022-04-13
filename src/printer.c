@@ -38,7 +38,7 @@ void	printer(t_data data, t_filentry *f, char *path)
 	if (data.isrecusive)
 		printf("%s:\n", path);
 	if (data.islist)
-		printf("total %ld\n", data.blocksize);
+		printf("total %ld\n", data.blocksize / 2);
 	while (f)
 	{
 		if (data.islist)

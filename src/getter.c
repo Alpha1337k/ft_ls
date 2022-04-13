@@ -19,7 +19,7 @@ char		get_filetype(mode_t s)
 	return '?';
 }
 
-char		*get_permissions(mode_t s)
+char		*get_permissions(struct stat *s)
 {
 	char	*rval = strdup("---------");
 	char	*types = "xwr";
@@ -27,13 +27,35 @@ char		*get_permissions(mode_t s)
 
 	while (x < 9)
 	{
-		if (getbit(s, x) == 1)
+		if (getbit(s->st_mode, x) == 1)
 		{
 			rval[8 - x] = types[x % 3];
 		}
 		x++;
 	}
+	if (s->st_mode & S_ISUID)
+		rval[2] = 's';
+	if (s->st_mode & S_ISGID)
+		rval[5] = 's';
+	if (s->st_mode & __S_ISVTX)
+		rval[8] = 't';
 	return rval;
+}
+
+char		*get_mdate(struct stat *s)
+{
+	time_t cur_time = time(0);
+	char *rv = calloc(sizeof(char), 13);
+
+	char *toedit = ctime(&s->st_mtime);
+
+	memcpy(rv, &toedit[4], 7);
+	if (s->st_mtim.tv_sec <= (cur_time - 15778476))
+		memcpy(&rv[7], &toedit[19], 5);
+	else
+		memcpy(&rv[7], &toedit[11], 5);
+
+	return rv;
 }
 
 void		get_stats(t_data *data, t_filentry *n, char *path)
@@ -48,16 +70,16 @@ void		get_stats(t_data *data, t_filentry *n, char *path)
 	struct group  *gr = getgrgid(s.st_gid);
 	n->size = s.st_size;
 	n->filetype = get_filetype(s.st_mode);
-	n->modtime = ft_substr(ctime(&s.st_mtime), 4, 12);
+	n->modtime = get_mdate(&s);
 	n->realtime = s.st_mtim;
-	n->owner	= pw->pw_name;
-	n->group	= gr->gr_name;
-	n->perms = get_permissions(s.st_mode);
+	n->owner	= ft_strdup(pw->pw_name);
+	n->group	= ft_strdup(gr->gr_name);
+	n->perms = get_permissions(&s);
 	n->links	= s.st_nlink;
 
 	readlink(tofind, n->linkname, 256);
 
-	data->blocksize += s.st_blocks / 2;
+	data->blocksize += s.st_blocks;
 	free(tofind);
 }
 
@@ -84,7 +106,7 @@ t_filentry	*getfiles(t_data *data, char *path)
 			n->prev = 0;
 			n->name = strdup(drnt->d_name);
 			n->searchname = strdup(drnt->d_name);
-			ft_tolowercase(n->searchname);
+			// ft_tolowercase(n->searchname);
 			get_stats(data, n, path);
 			list_add_back(&rval, n);
 		}

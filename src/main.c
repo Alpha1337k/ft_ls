@@ -22,6 +22,8 @@ void	cleanup_file(t_filentry *ent)
 		free(tmp->perms);
 		free(tmp->searchname);
 		free(tmp->name);
+		free(tmp->owner);
+		free(tmp->group);
 		free(tmp);
 	}	
 }
@@ -34,13 +36,17 @@ void	recurse_traverse(t_data data, char *path)
 
 	while (data.isrecusive && files)
 	{
-		if (files->filetype == 'd' && files->name[0] != '.')
+		if (files->filetype == 'd' && !((files->name[0] == '.' && data.listall == 0) || strcmp("..", files->name) == 0 || strcmp(".", files->name) == 0))
 		{
+			data.blocksize = 0;
 			printf("\n");
-			char *p = ft_strjoinmid(path, files->name, '/');
+			char *p;
+			if (path[strlen(path) - 1] != '/')
+				p = ft_strjoinmid(path, files->name, '/');
+			else
+				p = ft_strjoin(path, files->name);
 			recurse_traverse(data, p);
 			free(p);
-			data.blocksize = 0;
 		}
 		files = files->next;
 	}

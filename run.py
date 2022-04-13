@@ -30,11 +30,16 @@ def prefilter(line):
 
 def get_diff(name, s1, s2):
 	global f
+	padding_fault_guard = 0;
 
-	f.write("-------------------- ["+ name +"] --------------------");
+	f.write("-------------------- ["+ name +"] --------------------\n");
 	for line in difflib.unified_diff([prefilter(x) for x in s1], [prefilter(x) for x in s2], fromfile='mine', tofile='real', lineterm=''):
 		f.write(line + "\n");
+		padding_fault_guard = 1;
+	if padding_fault_guard == 0:
+		return 0;
 	f.write("\n");
+	return 1;
 
 def run_compare(path, commands):
 	real = subprocess.run(["/bin/ls"] + commands + [path], stdout=subprocess.PIPE, stderr=subprocess.PIPE);
@@ -46,12 +51,10 @@ def run_compare(path, commands):
 
 	if (real.stdout.decode("utf-8") == mine.stdout.decode("utf-8")):
 		return 0
-	get_diff(" ".join(["./ft_ls"] + commands + [path]), real.stdout.decode("utf-8").splitlines(), mine.stdout.decode("utf-8").splitlines())
-	return 1
+	return get_diff(" ".join(["./ft_ls"] + commands + [path]), real.stdout.decode("utf-8").splitlines(), mine.stdout.decode("utf-8").splitlines())
 
 def run_tests(path):
 	global paramsCombos, total, false
-	print(paramsCombos)
 	for i in paramsCombos:
 		res = run_compare(path, i);
 		print('{:<40s}'.format(path + " " + " ".join(i)), flush=True, end='');
@@ -67,6 +70,9 @@ def test():
 	for dir in dirs:
 		if (dir[0].startswith("./tests/")):
 			run_tests(dir[0]);
+	if false == 0:
+		print("Big test coming up");
+		run_tests("/usr");
 
 test()
 f.close();

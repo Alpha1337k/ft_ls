@@ -1,7 +1,7 @@
 NAME=ft_ls
 
 CC=gcc
-FLAGS=-Wall -Werror -Wextra -O3 -Wno-unused-result
+FLAGS=-Wall -Werror -Wextra -O3 -Wno-unused-result  -D st_mtim=st_mtimespec
 DEBUG_FLAGS=-g -fsanitize=address
 SRC=	libft/list.c		\
 		libft/longlen.c		\

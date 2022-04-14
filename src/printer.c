@@ -61,17 +61,36 @@ void	set_wideboys(int *wb, t_filentry *f)
 void	printer(t_data data, t_filentry *f, char *path)
 {
 	int widest[4] = {0};
+	static int mac_count = 0;
 
 	set_wideboys(widest, f);
+
+#ifdef __APPLE__
+	if (data.isrecusive && mac_count++ != 0)
+	{
+		write(1, path, ft_strlen(path));
+		ft_puts(":");
+	}
+#else
 	if (data.isrecusive)
 	{
 		write(1, path, ft_strlen(path));
 		ft_puts(":");
 	}
+#endif
+
 	if (data.islist)
 	{
+#ifdef __APPLE__
+		if (f == 0)
+			return;
+#endif
 		write(1, "total ", 6);
+#ifdef __APPLE__
+		ft_putnbr(data.blocksize);
+#else
 		ft_putnbr(data.blocksize / 2);
+#endif
 		ft_puts("");
 	}
 	while (f)

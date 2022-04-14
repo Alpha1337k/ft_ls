@@ -1,6 +1,9 @@
 #ifndef FT_LS
 #define  FT_LS
-#define _POSIX_C_SOURCE 200809
+
+#ifndef __APPLE__
+	#define _POSIX_C_SOURCE 200809
+#endif
 
 #include <stdio.h>
 #include <unistd.h>

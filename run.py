@@ -73,9 +73,9 @@ def test():
 	for dir in dirs:
 		if (dir[0].startswith("./tests/")):
 			run_tests(dir[0]);
-	if false == 0:
-		print("Big test coming up");
-		run_tests("/usr");
+	# if false == 0:
+	# 	print("Big test coming up");
+	# 	run_tests("/usr");
 
 test()
 f.close();

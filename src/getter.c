@@ -37,8 +37,13 @@ char		*get_permissions(struct stat *s)
 		rval[2] = 's';
 	if (s->st_mode & S_ISGID)
 		rval[5] = 's';
+#ifdef __APPLE__
+	if (s->st_mode & S_ISVTX)
+		rval[8] = 't';
+#else
 	if (s->st_mode & __S_ISVTX)
 		rval[8] = 't';
+#endif
 	return rval;
 }
 
@@ -48,9 +53,13 @@ char		*get_mdate(struct stat *s)
 	char *rv = malloc(sizeof(char) * 13);
 
 	char *toedit = ctime(&s->st_mtime);
-
+#ifdef __APPLE__
+	ft_memcpy(rv, &toedit[8], 3);
+	ft_memcpy(rv + 3, &toedit[4], 4);
+#else
 	ft_memcpy(rv, &toedit[4], 7);
-	if (s->st_mtim.tv_sec <= (cur_time - 15778476))
+#endif
+	if (s->st_mtimespec.tv_sec <= (cur_time - 15778476))
 		ft_memcpy(&rv[7], &toedit[19], 5);
 	else
 		ft_memcpy(&rv[7], &toedit[11], 5);

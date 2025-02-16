@@ -1,8 +1,8 @@
 # ft_ls
 As simple as listing the files in a directory.
 
+***Final grade***: [104 / 100]
 
-### ⚠️ PROJECT NOT EVALUATED OR NORME (but working as 'intended', edge cases ignored) ⚠️
 
 Mimic `ls` with the following constraints
 - implement the following options: -l -a -R -r -t
